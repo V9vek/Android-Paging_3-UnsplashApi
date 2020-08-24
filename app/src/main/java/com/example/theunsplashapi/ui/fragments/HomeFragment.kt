@@ -50,6 +50,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
 
             homeAdapter.addLoadStateListener { loadState ->
+                println("AppDebug: $loadState")
                 rvLatestPhotos.isVisible = loadState.source.refresh is LoadState.NotLoading
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error

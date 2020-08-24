@@ -16,7 +16,6 @@ constructor(
     private val photoDatabase: UnsplashPhotoDatabase
 ) {
 
-
     fun getLatestPhotos(itemsPerPage: Int): Flow<PagingData<UnsplashPhoto>> {
         val pagingSourceFactory = { photoDatabase.getUnsplashPhotoDao().getAllPhotos() }
 
