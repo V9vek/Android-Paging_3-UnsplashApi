@@ -1,6 +1,6 @@
 package com.example.theunsplashapi.di
 
-import com.example.theunsplashapi.db.UnsplashPhotoDao
+import com.example.theunsplashapi.db.UnsplashPhotoDatabase
 import com.example.theunsplashapi.repository.MainRepository
 import com.example.theunsplashapi.retrofit.UnsplashRetrofit
 import dagger.Module
@@ -17,6 +17,6 @@ object RepositoryModule {
     @Provides
     fun provideMainRepository(
         retrofit: UnsplashRetrofit,
-        dao: UnsplashPhotoDao
-    ) = MainRepository(retrofit, dao)
+        db: UnsplashPhotoDatabase
+    ) = MainRepository(retrofit, db)
 }

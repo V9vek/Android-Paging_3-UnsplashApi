@@ -4,16 +4,15 @@ import androidx.paging.PagingSource
 import com.example.theunsplashapi.models.UnsplashPhoto
 import com.example.theunsplashapi.retrofit.UnsplashRetrofit
 
+private const val STARTING_PAGE_INDEX = 1
+
 class UnsplashPhotoPagingSource(
     val retrofit: UnsplashRetrofit
 ) : PagingSource<Int, UnsplashPhoto>() {
 
-    private val initialPage = 1
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnsplashPhoto> {
 
-        val position = params.key ?: initialPage
-
+        val position = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = retrofit.getLatestPhotos(position, params.loadSize)
             val photos = response.body()!!
