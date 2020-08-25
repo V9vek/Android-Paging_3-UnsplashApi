@@ -3,7 +3,8 @@
 This is a small demo application based on modern Android application tech-stacks and MVVM architecture.
 This project is for focusing especially on the library [Jetpack Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview).
 
-Fetching data from the network and integrating persisted data in the database via repository pattern (Code in DatabaseBranch).
+Fetching data from the network and integrating persisted data in the database via repository pattern<br> 
+(Room Persistence in [DatabaseBranch](https://github.com/viveksharma2382000/Android-Paging_3-UnsplashApi/tree/DatabaseBranch) because Remote Mediator of Paging 3 still in Experimental Phase).
 
 ### Tech stack & Open-source libraries
 - Minimum SDK level 21
@@ -35,4 +36,4 @@ App using the [Unsplash API](https://unsplash.com/documentation) for constructin
 ### Screenshots
 
 ### TODO
-* Photo Details (Can use motion layout to learn)
+- Photo Details (Can use motion layout to learn)
