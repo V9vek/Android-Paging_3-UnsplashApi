@@ -50,9 +50,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
 
             homeAdapter.addLoadStateListener { loadState ->
-                rvLatestPhotos.isVisible = loadState.source.refresh is LoadState.NotLoading
-                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+                rvLatestPhotos.isVisible = loadState.refresh is LoadState.NotLoading
+                progressBar.isVisible = loadState.append is LoadState.Loading || loadState.refresh is LoadState.Loading
+                btnRetry.isVisible = loadState.refresh is LoadState.Error
             }
 
             layoutManager = LinearLayoutManager(requireContext())
