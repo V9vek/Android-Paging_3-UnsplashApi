@@ -6,8 +6,10 @@ import com.example.theunsplashapi.datasource.UnsplashPhotoPagingSource
 import com.example.theunsplashapi.datasource.UnsplashSearchPhotoPagingSource
 import com.example.theunsplashapi.db.UnsplashPhotoDao
 import com.example.theunsplashapi.retrofit.UnsplashRetrofit
+import javax.inject.Inject
 
 class MainRepository
+@Inject
 constructor(
     private val retrofit: UnsplashRetrofit,
     private val dao: UnsplashPhotoDao

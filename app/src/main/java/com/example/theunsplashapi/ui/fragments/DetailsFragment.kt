@@ -46,7 +46,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     isFirstResource: Boolean
                 ): Boolean {
                     progressBar.isVisible = false
-                    tvCreator.isVisible = true
+                    tvUsername.isVisible = true
+                    ivUserPhoto.isVisible = true
                     tvDescription.isVisible = photo.description != null
                     return false
                 }
@@ -55,7 +56,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             .into(ivPhoto)
 
         tvDescription.text = photo.description
-
-        tvCreator.text = "Photo by ${photo.user.name} on Unsplash"
+        Glide.with(requireContext()).load(photo.user.profileImage.mediumImageUrl).into(ivUserPhoto)
+        tvUsername.text = photo.user.name
     }
 }
