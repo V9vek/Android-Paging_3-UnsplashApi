@@ -34,9 +34,9 @@ App is based on MVVM architecture and a repository pattern.
 App using the [Unsplash API](https://unsplash.com/documentation) for constructing RESTful API
 
 ### Screenshots
-<img src="screenshots/screenshot_home_2.png" width=250/>   <img src="screenshots/screenshot_home_5.png" width=250/>
+<img src="screenshots/screenshot_home_2.png" width=200/>   <img src="screenshots/screenshot_home_5.png" width=200/>   <img src="screenshots/screenshot_home_4.png" width=200/>
 
-<img src="screenshots/screenshot_home_4.png" width=250/>  <img src="screenshots/screenshot_home_7.png" width=250/>
+<img src="screenshots/screenshot_home_7.png" width=200/>   <img src="screenshots/screenshot_detail_screen.png" width=200/>
 
 ### TODO
 - Photo Details (Can use motion layout to learn)
