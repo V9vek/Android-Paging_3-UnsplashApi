@@ -2,6 +2,8 @@ package com.example.theunsplashapi.ui.fragments
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.theunsplashapi.R
@@ -35,6 +38,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setUpRecyclerView()
 
+        homeAdapter.setOnItemClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it)
+            findNavController().navigate(action)
+        }
+
         viewModel.latestAndSearchPhoto.observe(viewLifecycleOwner, Observer {
             lifecycleScope.launch {
                 homeAdapter.submitData(it)
@@ -44,15 +52,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpRecyclerView() {
         rvLatestPhotos.apply {
+            itemAnimator =
+                null                     // DiffUtil shows prev data for a second before showing next data
             homeAdapter = HomeAdapter()
             adapter = homeAdapter.withLoadStateFooter(
                 footer = HomeLoadStateAdapter { homeAdapter.retry() }
             )
 
             homeAdapter.addLoadStateListener { loadState ->
-                rvLatestPhotos.isVisible = loadState.refresh is LoadState.NotLoading
-                progressBar.isVisible = loadState.append is LoadState.Loading || loadState.refresh is LoadState.Loading
-                btnRetry.isVisible = loadState.refresh is LoadState.Error
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                rvLatestPhotos.isVisible = loadState.source.refresh is LoadState.NotLoading
+                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+
+                // No results found
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached &&
+                    homeAdapter.itemCount < 1
+                ) {
+                    rvLatestPhotos.isVisible = false
+                    tvNoSearchResult.isVisible = true
+                } else {
+                    tvNoSearchResult.isVisible = false
+                }
             }
 
             layoutManager = LinearLayoutManager(requireContext())
@@ -64,28 +85,46 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setHasOptionsMenu(true)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val searchMenu = menu.findItem(R.id.actionSearch).actionView as SearchView
 
-        searchMenu.apply {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.action_bar_menu, menu)
+
+        val searchItem = menu.findItem(R.id.actionSearch)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.apply {
             queryHint = "Search Photos..."
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     viewModel.setQuery(query ?: "")
                     clearFocus()
-                    return false
+                    return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    return false
+                    return true
                 }
             })
 
-            setOnCloseListener {
+            setOnCloseListener {                // Not working
                 viewModel.setQuery("")
-                false
+                true
             }
         }
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                viewModel.setQuery("")
+                return true
+            }
+        })
     }
+
 }

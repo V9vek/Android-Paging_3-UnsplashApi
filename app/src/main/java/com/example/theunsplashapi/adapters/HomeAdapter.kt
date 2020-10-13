@@ -3,7 +3,6 @@ package com.example.theunsplashapi.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +34,12 @@ class HomeAdapter : PagingDataAdapter<UnsplashPhoto, HomeAdapter.HomeViewHolder>
         currentItem?.let { holder.bind(it) }
     }
 
+    private var onItemClickListener: ((UnsplashPhoto) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (UnsplashPhoto) -> Unit) {
+        onItemClickListener = listener
+    }
+
     inner class HomeViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +50,12 @@ class HomeAdapter : PagingDataAdapter<UnsplashPhoto, HomeAdapter.HomeViewHolder>
                 Glide.with(context).load(photo.imageUrl.regularImageUrl).into(ivPhoto)
                 Glide.with(context).load(photo.user.profileImage.mediumImageUrl).into(ivUserPhoto)
                 tvUsername.text = photo.user.name
+
+                setOnClickListener {
+                    onItemClickListener?.let {
+                        it(photo)
+                    }
+                }
             }
         }
     }

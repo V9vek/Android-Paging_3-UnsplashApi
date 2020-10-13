@@ -80,7 +80,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //Paging
-    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha05"
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-alpha07"
 
     //Room
     implementation "androidx.room:room-runtime:2.3.0-alpha02"
